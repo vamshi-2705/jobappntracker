@@ -32,28 +32,42 @@ const ProfilePicture = ({ pictureUrl, onUploaded }) => {
 
   return (
     <div className="profile-picture-block">
-      <div className="profile-avatar">
+      <button
+        type="button"
+        className="profile-upload-area"
+        onClick={() => inputRef.current?.click()}
+        disabled={uploading}
+        aria-label={src ? 'Change profile photo' : 'Upload profile photo'}
+      >
         {src ? (
-          <img src={src} alt="Profile" />
+          <img src={src} alt="Profile" className="profile-upload-preview" />
         ) : (
-          <span className="avatar-placeholder">Photo</span>
+          <>
+            <svg
+              className="profile-upload-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <span>{uploading ? 'Uploading…' : 'Click to upload photo'}</span>
+            <span className="profile-upload-hint">JPG, PNG or WEBP</span>
+          </>
         )}
-      </div>
+      </button>
       <input
         ref={inputRef}
         type="file"
         accept=".jpg,.jpeg,.png,.webp"
-        className="resume-file-input"
+        className="hidden-input"
         onChange={handleChange}
       />
-      <button
-        type="button"
-        className="btn btn-secondary btn-sm"
-        onClick={() => inputRef.current?.click()}
-        disabled={uploading}
-      >
-        {uploading ? <span className="btn-spinner" /> : 'Upload photo'}
-      </button>
       {error && <p className="field-error">{error}</p>}
     </div>
   );

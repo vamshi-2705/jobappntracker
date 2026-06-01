@@ -1151,11 +1151,13 @@ img {
   gap: var(--space-4);
 }
 
-.hidden-input {
+.hidden-input,
+.resume-file-input {
   position: absolute;
   width: 0;
   height: 0;
   opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 1024px) {
@@ -1692,5 +1694,296 @@ img {
   }
   .notes-grid {
     column-count: 1;
+  }
+}
+
+/* =========================================================
+   Form field styling
+   Global styles for inputs, textareas, selects, labels, and
+   form layout helpers. Uses theme variables so they work in
+   both the dark theme (primary) and light theme.
+   ========================================================= */
+
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not(.hidden-input):not(.resume-file-input),
+textarea,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font);
+  transition: var(--transition);
+  outline: none;
+}
+
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not(.hidden-input):not(.resume-file-input):focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  background: var(--bg-page);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--gray-400);
+  opacity: 1;
+}
+
+select option {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+input[type='date'],
+input[type='datetime-local'],
+input[type='time'],
+input[type='month'] {
+  color-scheme: dark;
+}
+
+[data-theme='light'] input[type='date'],
+[data-theme='light'] input[type='datetime-local'],
+[data-theme='light'] input[type='time'],
+[data-theme='light'] input[type='month'] {
+  color-scheme: light;
+}
+
+input[type='file'] {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-page);
+  border: 1px dashed var(--gray-300);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+input[type='file']:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+input[type='file']::file-selector-button {
+  margin-right: var(--space-3);
+  padding: 6px 12px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+input[type='file']::file-selector-button:hover {
+  background: var(--primary);
+  color: white;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+input.input-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--bg-page);
+}
+
+/* Re-assert the styled label tokens (color resolves to a soft gray
+   in dark mode and a darker gray in light mode via theme variables). */
+label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--gray-600);
+  margin-bottom: 6px;
+}
+
+/* Form layout helpers */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.form-grid-full {
+  grid-column: 1 / -1;
+}
+
+.form-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+/* Save button (used alongside legacy .btn-primary on Save actions) */
+.btn-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: var(--transition);
+}
+
+.btn-save:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.btn-save:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Profile picture upload zone */
+.profile-upload-area {
+  width: 200px;
+  height: 200px;
+  border: 2px dashed var(--gray-300);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--bg-page);
+  color: var(--gray-400);
+  padding: var(--space-4);
+  font-family: var(--font);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-upload-area:hover,
+.profile-upload-area:focus-visible {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.05);
+  outline: none;
+}
+
+.profile-upload-area:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.profile-upload-icon {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+.profile-upload-hint {
+  font-size: var(--text-xs);
+  color: var(--gray-400);
+  font-weight: 400;
+}
+
+.profile-upload-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Skills toolbar filters use the same field tokens */
+.skills-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.skills-filters > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Inline form spacing (used by skill/cert/achievement/course forms) */
+.inline-form,
+.skill-form,
+.job-form,
+.note-form-inline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.inline-form > label,
+.skill-form > label,
+.job-form > label {
+  margin-bottom: 0;
+}
+
+/* Note form inline layout — stack fields with consistent spacing */
+.note-form-inline > input,
+.note-form-inline > textarea,
+.note-form-inline > select {
+  margin-bottom: 0;
+}
+
+/* Language section inline add form */
+.language-add-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: var(--space-3);
+  align-items: end;
+  margin-bottom: var(--space-4);
+}
+
+/* Resume row spacing — keeps Upload + View buttons aligned with file input */
+.resume-upload-row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .form-grid,
+  .skills-filters {
+    grid-template-columns: 1fr;
+  }
+  .language-add-form {
+    grid-template-columns: 1fr;
+  }
+  .profile-upload-area {
+    width: 100%;
+    max-width: 240px;
   }
 }
