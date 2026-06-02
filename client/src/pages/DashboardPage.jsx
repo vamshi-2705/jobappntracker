@@ -9,8 +9,8 @@ import {
 } from 'react-icons/ri';
 import {
   Cell,
-  Line,
-  LineChart,
+  Area,
+  AreaChart,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -28,11 +28,46 @@ import PageHeader from '../components/UI/PageHeader';
 import { DashboardSkeleton } from '../components/UI/Skeleton';
 
 const STATUS_COLORS = {
-  Applied: '#6366f1',
-  Interview: '#f59e0b',
+  Applied: '#2563eb',
+  Interview: '#0d9488',
   Offered: '#10b981',
   Rejected: '#ef4444',
 };
+
+const CircuitOverlay = () => (
+  <svg
+    className="circuit-overlay-svg"
+    viewBox="0 0 200 200"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M150,0 L150,80 L120,110 L120,160 M120,110 L150,140 M120,160 L100,180"
+      className="circuit-path"
+      stroke="var(--primary)"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M170,0 L170,60 L140,90 L140,150 M140,90 L170,120 M140,150 L120,170"
+      className="circuit-path"
+      stroke="var(--secondary)"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M190,0 L190,40 L160,70 L160,130 M160,70 L190,100 M160,130 L140,150"
+      className="circuit-path"
+      stroke="var(--accent)"
+      strokeWidth="1.5"
+    />
+    <circle cx="120" cy="160" r="4" fill="var(--primary)" className="circuit-node" />
+    <circle cx="150" cy="140" r="4" fill="var(--primary)" className="circuit-node" />
+    <circle cx="100" cy="180" r="4" fill="var(--primary)" className="circuit-node" />
+    <circle cx="140" cy="150" r="4" fill="var(--secondary)" className="circuit-node" />
+    <circle cx="170" cy="120" r="4" fill="var(--secondary)" className="circuit-node" />
+    <circle cx="120" cy="170" r="4" fill="var(--secondary)" className="circuit-node" />
+    <circle cx="160" cy="130" r="4" fill="var(--accent)" className="circuit-node" />
+    <circle cx="190" cy="100" r="4" fill="var(--accent)" className="circuit-node" />
+  </svg>
+);
 
 const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
@@ -142,10 +177,11 @@ const DashboardPage = () => {
             transition={{ delay: i * 0.1 }}
             whileHover={{ y: -2 }}
           >
-            <div className={`stat-icon-wrap ${card.variant}`}>
+            <CircuitOverlay />
+            <div className={`stat-icon-wrap ${card.variant}`} style={{ position: 'relative', zIndex: 1 }}>
               <card.icon size={24} />
             </div>
-            <div>
+            <div style={{ position: 'relative', zIndex: 1 }}>
               <div className="stat-value">
                 <AnimatedCounter value={card.value} />
               </div>
@@ -156,16 +192,29 @@ const DashboardPage = () => {
       </div>
 
       <div className="chart-grid">
-        <Card className="chart-card" hover>
+        <Card className="chart-card glowing-area-chart" hover>
           <h3>Applications over time</h3>
           {timelineChart.length ? (
             <ResponsiveContainer width="100%" height={240}>
-              <LineChart data={timelineChart}>
+              <AreaChart data={timelineChart}>
+                <defs>
+                  <linearGradient id="growthGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="var(--accent)" stopOpacity={0.0} />
+                  </linearGradient>
+                </defs>
                 <XAxis dataKey="month" stroke="var(--text-secondary)" fontSize={12} />
                 <YAxis allowDecimals={false} stroke="var(--text-secondary)" fontSize={12} />
-                <Tooltip />
-                <Line type="monotone" dataKey="count" stroke="var(--primary)" strokeWidth={2} dot />
-              </LineChart>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'var(--bg-surface)', 
+                    borderColor: 'var(--border-color)',
+                    borderRadius: '8px',
+                    color: 'var(--text-primary)'
+                  }} 
+                />
+                <Area type="monotone" dataKey="count" stroke="var(--primary)" strokeWidth={3} fillOpacity={1} fill="url(#growthGradient)" />
+              </AreaChart>
             </ResponsiveContainer>
           ) : (
             <p className="empty-inline">Add jobs with applied dates to see trends.</p>
@@ -223,9 +272,10 @@ const DashboardPage = () => {
           </ul>
         </Card>
 
-        <Card className="tip-card-v2 profile-ring-wrap">
-          <h3 style={{ marginTop: 0 }}>Profile completion</h3>
-          <div className="profile-ring">
+        <Card className="tip-card-v2 profile-ring-wrap" style={{ position: 'relative', overflow: 'hidden' }}>
+          <CircuitOverlay />
+          <h3 style={{ marginTop: 0, position: 'relative', zIndex: 1 }}>Profile completion</h3>
+          <div className="profile-ring" style={{ position: 'relative', zIndex: 1 }}>
             <svg viewBox="0 0 100 100" width="100" height="100">
               <circle cx="50" cy="50" r="42" fill="none" stroke="var(--gray-200)" strokeWidth="8" />
               <circle
@@ -244,16 +294,16 @@ const DashboardPage = () => {
               </text>
             </svg>
           </div>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', position: 'relative', zIndex: 1 }}>
             Complete your profile to unlock better AI recommendations.
           </p>
-          <Link to="/profile">
+          <Link to="/profile" style={{ position: 'relative', zIndex: 1 }}>
             <Button variant="primary" block>
               Complete profile
             </Button>
           </Link>
           {summary?.tipOfTheDay && (
-            <div style={{ marginTop: 24, textAlign: 'left' }}>
+            <div style={{ marginTop: 24, textAlign: 'left', position: 'relative', zIndex: 1 }}>
               <h4 style={{ margin: '0 0 8px' }}>Tip of the day</h4>
               <p style={{ margin: 0, fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                 {summary.tipOfTheDay}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   RiAwardLine,
   RiBriefcaseLine,
@@ -32,19 +32,26 @@ const Sidebar = ({ mobileOpen, onClose }) => {
   const [headline, setHeadline] = useState('');
   const [avatar, setAvatar] = useState(null);
 
+  const load = async () => {
+    try {
+      const { data } = await api.get('/dashboard/summary');
+      setCompletion(data.profileCompletion || 0);
+      const profileRes = await api.get('/profile');
+      const isRemoved = localStorage.getItem('profile_picture_removed') === 'true';
+      setAvatar(isRemoved ? null : (profileRes.data.profile?.profile_picture || null));
+      setHeadline(profileRes.data.profile?.headline || '');
+    } catch {
+      setCompletion(0);
+    }
+  };
+
   useEffect(() => {
-    const load = async () => {
-      try {
-        const { data } = await api.get('/dashboard/summary');
-        setCompletion(data.profileCompletion || 0);
-        const profileRes = await api.get('/profile');
-        setAvatar(profileRes.data.profile?.profile_picture || null);
-        setHeadline(profileRes.data.profile?.headline || '');
-      } catch {
-        setCompletion(0);
-      }
-    };
     load();
+    const handleProfileUpdate = () => {
+      load();
+    };
+    window.addEventListener('profile-picture-changed', handleProfileUpdate);
+    return () => window.removeEventListener('profile-picture-changed', handleProfileUpdate);
   }, []);
 
   return (
@@ -53,17 +60,17 @@ const Sidebar = ({ mobileOpen, onClose }) => {
       <aside className={`sidebar ${mobileOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-brand">
           <div className="sidebar-brand-inner">
-            <div className="sidebar-logo">
-              <RiBriefcaseLine size={22} />
+            <div className="sidebar-logo" style={{ background: 'transparent', width: 32, height: 32, padding: 0 }}>
+              <img src="/logo.png" alt="CareerCraft AI" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
             <div>
-              <p className="sidebar-app-name">JobTrackr AI</p>
+              <p className="sidebar-app-name" style={{ fontSize: '1.05rem', fontWeight: '800', margin: 0, background: 'linear-gradient(135deg, #2563eb 0%, #0d9488 50%, #10b981 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>CareerCraft AI</p>
               <p className="sidebar-app-sub">Your career companion</p>
             </div>
           </div>
         </div>
 
-        <div className="sidebar-user">
+        <Link to="/profile" className="sidebar-user" title="View profile details">
           <div className="sidebar-avatar">
             {avatar ? (
               <img src={getFileUrl(avatar)} alt="" />
@@ -71,11 +78,11 @@ const Sidebar = ({ mobileOpen, onClose }) => {
               <span>{user?.name?.charAt(0)?.toUpperCase() || '?'}</span>
             )}
           </div>
-          <div>
+          <div className="sidebar-user-info">
             <p className="sidebar-name">{user?.name}</p>
             <p className="sidebar-headline">{headline || user?.email}</p>
           </div>
-        </div>
+        </Link>
 
         <div className="sidebar-completion">
           <div className="completion-bar-header">
@@ -102,7 +109,7 @@ const Sidebar = ({ mobileOpen, onClose }) => {
         </nav>
 
         <div className="sidebar-footer">
-          <NavLink to="/profile" className="sidebar-link" onClick={onClose}>
+          <NavLink to="/settings" className="sidebar-link" onClick={onClose}>
             <RiSettings3Line size={20} />
             Settings
           </NavLink>

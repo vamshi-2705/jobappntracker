@@ -1,8 +1,8 @@
 const SocialLinks = ({ form, onChange }) => (
   <div className="profile-section-card">
-    <h3>Social links</h3>
-    <div className="form-grid">
-      <div>
+    <h3 className="profile-section-title">Social links</h3>
+    <div className="profile-form-grid">
+      <div className="form-field">
         <label htmlFor="github_url">GitHub</label>
         <input
           id="github_url"
@@ -13,7 +13,7 @@ const SocialLinks = ({ form, onChange }) => (
           placeholder="https://github.com/username"
         />
       </div>
-      <div>
+      <div className="form-field">
         <label htmlFor="linkedin_url">LinkedIn</label>
         <input
           id="linkedin_url"
@@ -24,7 +24,7 @@ const SocialLinks = ({ form, onChange }) => (
           placeholder="https://linkedin.com/in/username"
         />
       </div>
-      <div className="form-grid-full">
+      <div className="form-field form-grid-full">
         <label htmlFor="portfolio_url">Portfolio</label>
         <input
           id="portfolio_url"

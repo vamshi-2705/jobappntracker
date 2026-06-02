@@ -11,11 +11,13 @@ const FEATURES = [
 const LoginPage = () => (
   <div className="auth-split">
     <div className="auth-split-left">
-      <div className="sidebar-logo" style={{ width: 56, height: 56, fontSize: '1.5rem' }}>
-        <RiBriefcaseLine />
+      <div className="sidebar-logo" style={{ width: 64, height: 64, background: 'transparent', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img src="/logo.png" alt="CareerCraft AI" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
-      <h1>JobTrackr AI</h1>
-      <p style={{ opacity: 0.9, fontSize: 'var(--text-lg)', margin: 0 }}>
+      <h1 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--text-3xl)', fontWeight: '800', margin: '16px 0 8px', background: 'linear-gradient(135deg, #60a5fa 0%, #2dd4bf 50%, #4ade80 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        CareerCraft AI
+      </h1>
+      <p style={{ opacity: 0.9, fontSize: 'var(--text-lg)', margin: 0, color: '#e2e8f0' }}>
         Your smart companion for the job search
       </p>
       <ul className="auth-feature-list">

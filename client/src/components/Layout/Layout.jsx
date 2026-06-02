@@ -15,6 +15,7 @@ const TITLES = {
   '/resume': 'Resume Builder',
   '/interview': 'Interview Prep',
   '/notes': 'Notes',
+  '/settings': 'Settings',
 };
 
 const Layout = () => {
@@ -34,7 +35,7 @@ const Layout = () => {
     return <Navigate to="/login" replace />;
   }
 
-  const title = TITLES[location.pathname] || 'JobTrackr AI';
+  const title = TITLES[location.pathname] || 'CareerCraft AI';
 
   return (
     <div className="app-layout">

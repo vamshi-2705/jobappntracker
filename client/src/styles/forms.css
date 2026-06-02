@@ -223,7 +223,7 @@ input[type='date'] {
 }
 
 .ui-input-with-icon {
-  padding-left: 44px;
+  padding-left: 44px !important;
 }
 
 .ui-input:focus,

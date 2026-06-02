@@ -145,10 +145,22 @@ const SkillsPage = () => {
       </div>
 
       <div className="proficiency-legend">
-        <span className="legend-item skill-badge-beginner">Beginner</span>
-        <span className="legend-item skill-badge-intermediate">Intermediate</span>
-        <span className="legend-item skill-badge-advanced">Advanced</span>
-        <span className="legend-item skill-badge-expert">Expert</span>
+        <span className="proficiency-badge skill-badge-beginner">
+          <span className="proficiency-dot" style={{ backgroundColor: '#cbd5e1' }} />
+          Beginner
+        </span>
+        <span className="proficiency-badge skill-badge-intermediate">
+          <span className="proficiency-dot" style={{ backgroundColor: '#93c5fd' }} />
+          Intermediate
+        </span>
+        <span className="proficiency-badge skill-badge-advanced">
+          <span className="proficiency-dot" style={{ backgroundColor: '#86efac' }} />
+          Advanced
+        </span>
+        <span className="proficiency-badge skill-badge-expert">
+          <span className="proficiency-dot" style={{ backgroundColor: '#d8b4fe' }} />
+          Expert
+        </span>
       </div>
 
       {showForm && (

@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   RiMenuLine,
   RiMoonLine,
-  RiNotification3Line,
-  RiSearchLine,
   RiSunLine,
 } from 'react-icons/ri';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import api, { getFileUrl } from '../../utils/api';
+import SearchBar from '../Navbar/SearchBar';
+import NotificationPanel from '../Navbar/NotificationPanel';
 
 const Navbar = ({ title, breadcrumb, onMenuClick }) => {
   const { user } = useAuth();
@@ -16,15 +17,24 @@ const Navbar = ({ title, breadcrumb, onMenuClick }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [avatar, setAvatar] = useState(null);
 
-  useEffect(() => {
+  const loadAvatar = () => {
     api
       .get('/profile')
-      .then((res) => setAvatar(res.data.profile?.profile_picture || null))
+      .then((res) => {
+        const isRemoved = localStorage.getItem('profile_picture_removed') === 'true';
+        setAvatar(isRemoved ? null : (res.data.profile?.profile_picture || null));
+      })
       .catch(() => {});
+  };
+
+  useEffect(() => {
+    loadAvatar();
+    window.addEventListener('profile-picture-changed', loadAvatar);
+    return () => window.removeEventListener('profile-picture-changed', loadAvatar);
   }, []);
 
   return (
-    <header className="app-navbar">
+    <header className="app-navbar" style={{ display: 'flex' }}>
       <div className="navbar-left">
         <button type="button" className="icon-btn menu-toggle" onClick={onMenuClick} aria-label="Menu">
           <RiMenuLine size={22} />
@@ -35,15 +45,9 @@ const Navbar = ({ title, breadcrumb, onMenuClick }) => {
         </div>
       </div>
 
-      <div className="navbar-actions">
-        <button type="button" className="icon-btn" aria-label="Notifications" title="Notifications">
-          <span className="pulse-badge" style={{ position: 'relative' }}>
-            <RiNotification3Line size={20} />
-          </span>
-        </button>
-        <button type="button" className="icon-btn" aria-label="Search" title="Search">
-          <RiSearchLine size={20} />
-        </button>
+      <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <NotificationPanel />
+        <SearchBar />
         <button
           type="button"
           className="icon-btn"
@@ -54,37 +58,19 @@ const Navbar = ({ title, breadcrumb, onMenuClick }) => {
           {theme === 'light' ? <RiMoonLine size={20} /> : <RiSunLine size={20} />}
         </button>
         <div style={{ position: 'relative' }}>
-          <button
-            type="button"
+          <Link
+            to="/profile"
             className="sidebar-avatar"
-            style={{ width: 36, height: 36, cursor: 'pointer' }}
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Profile menu"
+            style={{ width: 36, height: 36, cursor: 'pointer', display: 'flex', textDecoration: 'none', alignItems: 'center', justifyContent: 'center' }}
+            aria-label="Profile"
+            title="View profile details"
           >
             {avatar ? (
               <img src={getFileUrl(avatar)} alt="" />
             ) : (
               <span style={{ fontSize: '0.85rem' }}>{user?.name?.charAt(0) || '?'}</span>
             )}
-          </button>
-          {menuOpen && (
-            <div
-              className="ui-card ui-card-pad"
-              style={{
-                position: 'absolute',
-                right: 0,
-                top: 'calc(100% + 8px)',
-                minWidth: 180,
-                padding: '12px',
-                zIndex: 60,
-              }}
-            >
-              <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--text-sm)' }}>{user?.name}</p>
-              <p style={{ margin: '4px 0 0', fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>
-                {user?.email}
-              </p>
-            </div>
-          )}
+          </Link>
         </div>
       </div>
     </header>

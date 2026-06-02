@@ -11,6 +11,7 @@ import JobsPage from './pages/JobsPage';
 import ResumePage from './pages/ResumePage';
 import InterviewPrepPage from './pages/InterviewPrepPage';
 import NotesPage from './pages/NotesPage';
+import SettingsPage from './pages/SettingsPage';
 
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -58,6 +59,7 @@ function App() {
         <Route path="/resume" element={<ResumePage />} />
         <Route path="/interview" element={<InterviewPrepPage />} />
         <Route path="/notes" element={<NotesPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import api, { getFileUrl } from '../utils/api';
 import PageHeader from '../components/UI/PageHeader';
 import CompletionBar from '../components/Profile/CompletionBar';
-import ProfilePicture from '../components/Profile/ProfilePicture';
+import PhotoUpload from '../components/Profile/PhotoUpload';
 import ProfileResumeUpload from '../components/Profile/ResumeUpload';
 import BasicInfo from '../components/Profile/BasicInfo';
 import SocialLinks from '../components/Profile/SocialLinks';
@@ -116,7 +116,9 @@ const ProfilePage = () => {
 
   const displayName = data?.user?.name || user?.name;
   const headline = form.headline || 'Add a headline to stand out';
-  const avatarUrl = data?.profile?.profile_picture;
+  const avatarUrl = localStorage.getItem('profile_picture_removed') === 'true'
+    ? null
+    : data?.profile?.profile_picture;
 
   return (
     <div className="profile-page">
@@ -140,7 +142,7 @@ const ProfilePage = () => {
 
       <div className="profile-top-grid">
         <div className="profile-section-card profile-photo-card">
-          <ProfilePicture
+          <PhotoUpload
             pictureUrl={avatarUrl}
             onUploaded={handleUploadRefresh}
           />
