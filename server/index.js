@@ -21,6 +21,25 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Diagnostic route to list uploaded files
+const fs = require('fs');
+app.get('/api/debug-uploads', (req, res) => {
+  try {
+    const uploadsPath = path.join(__dirname, 'uploads');
+    const profilesPath = path.join(uploadsPath, 'profiles');
+    const exists = fs.existsSync(profilesPath);
+    const files = exists ? fs.readdirSync(profilesPath) : [];
+    res.json({
+      uploadsPath,
+      profilesPath,
+      exists,
+      files
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const authRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const aiRoutes = require('./routes/aiRoutes');
