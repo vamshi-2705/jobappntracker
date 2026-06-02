@@ -286,11 +286,15 @@ const updateProfile = async (req, res) => {
 const uploadPicture = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ message: 'No image file uploaded' });
+      console.log('UPLOAD FAILURE: req.file is empty');
+      return res.status(400).json({ message: 'No image uploaded' });
     }
 
     const userId = req.user.id;
     const publicUrl = `/uploads/profiles/${req.file.filename}`;
+    
+    console.log('UPLOAD SUCCESSFUL: saved file to', req.file.path);
+    console.log('PUBLIC URL TO BE RETURNED:', publicUrl);
 
     let profile = await query('SELECT profile_picture FROM profiles WHERE user_id = $1', [userId]);
 
