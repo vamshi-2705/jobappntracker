@@ -6,6 +6,7 @@ import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import './styles/global.css';
+import './styles/forms.css';
 import './styles/animations.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

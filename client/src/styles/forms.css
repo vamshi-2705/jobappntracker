@@ -1,0 +1,420 @@
+/**
+ * Form field styling — light & dark themes.
+ * Uses CSS variables; toggle via data-theme on <html>.
+ */
+
+[data-theme='light'] {
+  --form-input-bg: #ffffff;
+  --form-input-bg-focus: #ffffff;
+  --form-input-border: #d1d5db;
+  --form-input-text: #111827;
+  --form-placeholder: #9ca3af;
+  --form-label: #374151;
+  --form-card-bg: #ffffff;
+  --form-card-border: #e5e7eb;
+  --form-card-nested-bg: #f9fafb;
+  --form-upload-bg: #f9fafb;
+  --form-upload-border: #d1d5db;
+  --form-upload-hover-border: #6366f1;
+  --form-upload-text: #6b7280;
+  --form-upload-hover-bg: rgba(99, 102, 241, 0.06);
+  --form-disabled-bg: #f3f4f6;
+  --form-focus-ring: rgba(99, 102, 241, 0.2);
+  --form-option-bg: #ffffff;
+  --form-option-text: #111827;
+  --form-color-scheme: light;
+  --form-modal-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+  --form-avatar-ring: #e5e7eb;
+}
+
+[data-theme='dark'] {
+  --form-input-bg: #1f2937;
+  --form-input-bg-focus: #111827;
+  --form-input-border: #374151;
+  --form-input-text: #f9fafb;
+  --form-placeholder: #6b7280;
+  --form-label: #d1d5db;
+  --form-card-bg: #1f2937;
+  --form-card-border: #374151;
+  --form-card-nested-bg: #111827;
+  --form-upload-bg: #111827;
+  --form-upload-border: #4b5563;
+  --form-upload-hover-border: #6366f1;
+  --form-upload-text: #6b7280;
+  --form-upload-hover-bg: rgba(99, 102, 241, 0.05);
+  --form-disabled-bg: #111827;
+  --form-focus-ring: rgba(99, 102, 241, 0.15);
+  --form-option-bg: #1f2937;
+  --form-option-text: #f9fafb;
+  --form-color-scheme: dark;
+  --form-modal-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+  --form-avatar-ring: #374151;
+}
+
+/* ─── Form card containers ─── */
+.form-card,
+.profile-section-card,
+.skills-toolbar.profile-section-card,
+.profile-photo-card {
+  background: var(--form-card-bg);
+  border: 1px solid var(--form-card-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-section-card > .inline-form {
+  background: var(--form-card-nested-bg);
+  border: 1px solid var(--form-card-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.profile-form-main .profile-section-card {
+  background: var(--form-card-bg);
+  border: 1px solid var(--form-card-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.modal-overlay .modal {
+  background: var(--form-card-bg);
+  border: 1px solid var(--form-card-border);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--form-modal-shadow);
+}
+
+.modal-panel {
+  background: var(--form-card-bg);
+  border: 1px solid var(--form-card-border);
+}
+
+/* ─── Form groups (label + field alignment) ─── */
+.form-group,
+.form-grid > div,
+.job-form > div:not(.form-actions):not(.form-grid),
+.skills-filters > div,
+.inline-form .form-grid > div,
+.profile-resume-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.language-add-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-grid > div {
+  margin-bottom: 0;
+}
+
+.note-form-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Labels ─── */
+label:not(.checkbox-label) {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--form-label);
+  margin-bottom: 6px;
+}
+
+.form-grid > div > label,
+.job-form > div > label {
+  margin-bottom: 0;
+}
+
+.ui-label {
+  color: var(--form-label);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+/* ─── Native inputs, textareas, selects ─── */
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not(.resume-file-input):not(.hidden-input),
+textarea,
+select {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  font-family: var(--font);
+  transition: var(--transition);
+  outline: none;
+}
+
+textarea,
+select {
+  height: auto;
+}
+
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not(.resume-file-input):not(.hidden-input):focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-bg);
+  background: var(--bg-surface);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--form-placeholder);
+}
+
+select option {
+  background: var(--form-option-bg);
+  color: var(--form-option-text);
+}
+
+input[type='date'] {
+  color-scheme: var(--form-color-scheme);
+}
+
+.input-disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: var(--form-disabled-bg);
+}
+
+/* ─── UI component inputs (auth, etc.) ─── */
+.ui-input,
+.ui-select,
+.ui-textarea {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  font-family: var(--font);
+  transition: var(--transition);
+  outline: none;
+  min-height: 48px;
+}
+
+.ui-input-with-icon {
+  padding-left: 44px;
+}
+
+.ui-input:focus,
+.ui-select:focus,
+.ui-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-bg);
+  background: var(--bg-surface);
+}
+
+.ui-input::placeholder,
+.ui-textarea::placeholder {
+  color: var(--form-placeholder);
+}
+
+textarea,
+.ui-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ─── File inputs ─── */
+input[type='file']:not(.resume-file-input):not(.hidden-input) {
+  padding: 8px;
+  background: var(--form-upload-bg);
+  border: 1px dashed var(--form-upload-border);
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type='file']:not(.resume-file-input):not(.hidden-input):hover {
+  border-color: var(--form-upload-hover-border);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row;
+  cursor: pointer;
+  color: var(--form-label);
+  margin-bottom: 16px;
+}
+
+.checkbox-label input {
+  width: auto;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* ─── Profile picture upload zone (CSS-only) ─── */
+.profile-upload-area,
+.profile-picture-block .profile-avatar:not(:has(img)) {
+  width: 200px;
+  height: 200px;
+  border: 2px dashed var(--form-upload-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--form-upload-bg);
+  color: var(--form-upload-text);
+  gap: 8px;
+}
+
+.profile-picture-block .profile-avatar:not(:has(img)):hover {
+  border-color: var(--form-upload-hover-border);
+  color: var(--form-upload-hover-border);
+  background: var(--form-upload-hover-bg);
+}
+
+.profile-picture-block .profile-avatar:not(:has(img))::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+[data-theme='light'] .profile-picture-block .profile-avatar:not(:has(img))::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5'/%3E%3C/svg%3E");
+}
+
+[data-theme='dark'] .profile-picture-block .profile-avatar:not(:has(img))::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5'/%3E%3C/svg%3E");
+}
+
+[data-theme='light'] .profile-picture-block .profile-avatar:not(:has(img)):hover::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5'/%3E%3C/svg%3E");
+}
+
+[data-theme='dark'] .profile-picture-block .profile-avatar:not(:has(img)):hover::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5'/%3E%3C/svg%3E");
+}
+
+.profile-picture-block .profile-avatar:not(:has(img)) .avatar-placeholder {
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+}
+
+.profile-picture-block .profile-avatar:not(:has(img))::after {
+  content: 'Click to upload photo';
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 12px;
+  line-height: 1.3;
+  color: inherit;
+}
+
+.profile-picture-block .profile-avatar:has(img) {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--form-avatar-ring);
+  overflow: hidden;
+}
+
+.profile-picture-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.profile-picture-block:not(:has(.profile-avatar img)) .btn {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.profile-picture-block:has(.profile-avatar img) .btn {
+  margin-top: 4px;
+}
+
+/* ─── Save / primary submit in forms ─── */
+.btn-save,
+.profile-form-main > .btn-primary,
+.job-form .form-actions .btn-primary,
+.skill-form .form-actions .btn-primary,
+.inline-form .form-actions .btn-primary,
+.note-form-inline .form-actions .btn-primary {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-save:hover:not(:disabled),
+.profile-form-main > .btn-primary:hover:not(:disabled),
+.job-form .form-actions .btn-primary:hover:not(:disabled),
+.skill-form .form-actions .btn-primary:hover:not(:disabled),
+.inline-form .form-actions .btn-primary:hover:not(:disabled),
+.note-form-inline .form-actions .btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .language-add-form {
+    grid-template-columns: 1fr;
+  }
+}
